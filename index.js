@@ -14,6 +14,10 @@ function hook (hookable, fn) {
   if (typeof hookable === 'function' && hookable.hook) { hookable.hook(fn) }
 }
 
+function isEmpty (o) {
+  for (var k in o) return false
+  return true
+}
 exports.name = 'ebt'
 
 exports.version = '1.1.0'
@@ -76,7 +80,7 @@ exports.init = function (sbot, config) {
     var peers = status.peers
     var ourSeqForPeer = status.seq
 
-    if (Object.keys(peers).length === 0) return 0
+    if (isEmpty(peers)) return 0
 
     var seqs = Object.keys(peers).map(function (peer) {
       return peers[peer].seq
@@ -84,8 +88,7 @@ exports.init = function (sbot, config) {
 
     // Find the largest value that the peer is ahead by.
     return seqs.reduce(function (acc, seq) {
-      var aheadBy = seq - ourSeqForPeer
-      return aheadBy > acc ? aheadBy : acc
+      return Math.max(acc, seq - ourSeqForPeer)
     }, 0)
   }
 
