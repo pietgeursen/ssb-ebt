@@ -32,7 +32,7 @@ request that `feedId` be replicated. `toReplicate` is
 a boolean, replicate feed if true. If set to false,
 replication is immediately stopped.
 
-### ebt.peerStatus (id, cb)
+### ebt.peerStatus (id)
 
 query the status of replication for id.
 returns a small data structure showing the replication
