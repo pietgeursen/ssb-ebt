@@ -93,6 +93,8 @@ exports.init = function (sbot, config) {
   }
 
   console.log('Init replication manager')
+
+  setInterval(() => console.log('tick from ssb-ebt'), 5000)
   var replicationManager = ReplicationManager({
     request: ebt.request,
     getPeerAheadBy: getPeerAheadBy
@@ -115,12 +117,12 @@ exports.init = function (sbot, config) {
     return fn.apply(this, args)
   })
 
-  hook(sbot.progress, function (fn) {
-    var prog = fn()
-    var p = ebt.progress()
-    if (p.target) prog.ebt = p
-    return prog
-  })
+  //  hook(sbot.progress, function (fn) {
+  //    var prog = fn()
+  //    var p = ebt.progress()
+  //    if (p.target) prog.ebt = p
+  //    return prog
+  //  })
 
   function onClose () {
     sbot.emit('replicate:finish', ebt.state.clock)
