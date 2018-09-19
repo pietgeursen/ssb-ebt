@@ -113,7 +113,7 @@ exports.init = function (sbot, config) {
   // HACK: patch calls to replicate.request into ebt, too.
   hook(sbot.replicate.request, function (fn, args) {
     if (!isFeed(args[0])) return
-    console.log('requested replication')
+    console.log('requested replication', args[0], args[1])
     replicationManager.request(args[0], args[1])
     return fn.apply(this, args)
   })

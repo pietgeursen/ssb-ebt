@@ -14,7 +14,7 @@
     "pull-stream": "^3.5.0",
     "push-stream-to-pull-stream": "^1.0.0",
     "ssb-ref": "^2.9.1",
-    "ssb-replication-manager": "pietgeursen/ssb-replication-manager#2c3f0d7d40ae2eb170bdbfb2b38dfc992acd7ba5"
+    "ssb-replication-manager": "pietgeursen/ssb-replication-manager#82bd0026642b539a10f8beaa489b0fd95af095f5"
   },
   "devDependencies": {
     "cont": "^1.0.3",
