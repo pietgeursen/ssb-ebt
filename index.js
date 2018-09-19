@@ -115,7 +115,7 @@ exports.init = function (sbot, config) {
     if (!isFeed(args[0])) return
     // Somewhere in the stack is calling request with no second argument, assuming it means start replicating that feed.
     var isReplicationEnabled = args[1] !== false
-    console.log('requested replication', args[0], isReplicationEnabled)
+    console.log('requested replication', args[0], isReplicationEnabled, args[1])
     replicationManager.request(args[0], isReplicationEnabled)
     return fn.apply(this, args)
   })
