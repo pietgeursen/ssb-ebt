@@ -113,8 +113,10 @@ exports.init = function (sbot, config) {
   // HACK: patch calls to replicate.request into ebt, too.
   hook(sbot.replicate.request, function (fn, args) {
     if (!isFeed(args[0])) return
-    console.log('requested replication', args[0], args[1])
-    replicationManager.request(args[0], args[1])
+    // Somewhere in the stack is calling request with no second argument, assuming it means start replicating that feed.
+    var isReplicationEnabled = args[1] !== false
+    console.log('requested replication', args[0], isReplicationEnabled)
+    replicationManager.request(args[0], isReplicationEnabled)
     return fn.apply(this, args)
   })
 
