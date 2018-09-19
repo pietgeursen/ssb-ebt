@@ -79,6 +79,7 @@ exports.init = function (sbot, config) {
     var status = peerStatus(feedId)
     var peers = status.peers
     var ourSeqForPeer = status.seq
+    console.log('called get peer ahead by')
 
     if (isEmpty(peers)) return 0
 
@@ -94,7 +95,6 @@ exports.init = function (sbot, config) {
 
   console.log('Init replication manager')
 
-  setInterval(() => console.log('tick from ssb-ebt'), 5000)
   var replicationManager = ReplicationManager({
     request: ebt.request,
     getPeerAheadBy: getPeerAheadBy
@@ -113,16 +113,17 @@ exports.init = function (sbot, config) {
   // HACK: patch calls to replicate.request into ebt, too.
   hook(sbot.replicate.request, function (fn, args) {
     if (!isFeed(args[0])) return
+    console.log('requested replication')
     replicationManager.request(args[0], args[1])
     return fn.apply(this, args)
   })
 
-  //  hook(sbot.progress, function (fn) {
-  //    var prog = fn()
-  //    var p = ebt.progress()
-  //    if (p.target) prog.ebt = p
-  //    return prog
-  //  })
+  hook(sbot.progress, function (fn) {
+    var prog = fn()
+    var p = ebt.progress()
+    if (p.target) prog.ebt = p
+    return prog
+  })
 
   function onClose () {
     sbot.emit('replicate:finish', ebt.state.clock)
